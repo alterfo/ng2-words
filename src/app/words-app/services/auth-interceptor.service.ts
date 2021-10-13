@@ -1,6 +1,6 @@
 import {Observable, throwError as observableThrowError} from 'rxjs';
 
-import {catchError} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -11,19 +11,26 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router) {
     }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    intercept(req: HttpRequest<any>, next: HttpHandler) {
+
+        // extend server response observable with logging
         return next.handle(req)
             .pipe(
-                catchError(err => {
-                    if (err instanceof HttpErrorResponse) {
-                        if (err.status === 401) {
-                            this.router.navigate(['/signin']);
+                tap(
+                    _ => {
+                    },
+                    err => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (err.status === 401) {
+                                this.router.navigate(['/signin']);
+                            }
+                            if (err.status === 500) {
+                                this.router.navigate(['/error'])
+                            }
+                            return observableThrowError(err);
                         }
-                        if (err.status === 500) {
-
-                        }
-                        return observableThrowError(err);
                     }
-                }))
+                ),
+            );
     }
 }

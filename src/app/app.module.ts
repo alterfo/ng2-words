@@ -21,6 +21,7 @@ import {SignupComponent} from './words-app/layout/signup/signup.component';
 import {routing} from './app.routes';
 import {Autosize} from './words-app/directives/autosize.directive';
 import {AboutComponent} from './words-app/layout/about/about.component';
+import { ErrorComponent } from './words-app/layout/error/error.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {AboutComponent} from './words-app/layout/about/about.component';
     LoginComponent,
     SignupComponent,
     Autosize,
-    AboutComponent
+    AboutComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
