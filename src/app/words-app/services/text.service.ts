@@ -1,25 +1,23 @@
 import {Injectable} from '@angular/core';
-import {C} from '../const';
-import {HttpClient} from '@angular/common/http';
-
-declare var moment: any;
+import {Observable} from 'rxjs';
+import {NgxIndexedDBService} from 'ngx-indexed-db';
+import {Temporal} from '@js-temporal/polyfill';
 
 @Injectable()
 export class TextService {
-
-  postTextsUrl = '/api/texts';
-  getTextByDateUrl = '/api/text/';
-
-  constructor(private http: HttpClient) { }
-
-  getTextByDate(dateString) {
-    return this.http.get(this.getTextByDateUrl + dateString);
+  calendar = Temporal.Calendar.from('gregory');
+  now = Temporal.Now.plainDate(this.calendar);
+  constructor(private dbService: NgxIndexedDBService) {
   }
 
-  saveText(text) {
-    return this.http.post(this.postTextsUrl, {
+  getTextByDate(dateString: string): Observable<{ text: string }> {
+    return this.dbService.getByKey('texts', dateString)
+  }
+
+  saveText(text: string) {
+    return this.dbService.update("texts", {
       text: text,
-      date: moment().utc().format(C.DDMMYYYY)
+      date: this.now.toString()
     });
   }
 

@@ -8,7 +8,7 @@ export class TimelineService {
     private http: HttpClient
   ) { }
 
-  getTimelineData(month) {
+  getTimelineData(month: string) {
     return this.http.get('/api/timeline/' + month);
   }
 }

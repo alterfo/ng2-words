@@ -1,4 +1,4 @@
-<div class="row" *ngIf="isToday()">
+<div class="row">
   <div class="col-10 offset-1">
     <h1>Автор, жги!</h1>
     <div>
@@ -22,8 +22,9 @@
               autosize
               (keydown.control.s)="saveByKeys($event)"
               (keydown.control.ы)="saveByKeys($event)"
+              (keydown.meta.s)="saveByKeys($event)"
+              (keydown.meta.ы)="saveByKeys($event)"
               (keydown.tab)="putTab($event)"></textarea>
-
     </form>
   </div>
   <div class="textarea-toolbar__wrapper col-1">
@@ -38,7 +39,7 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="!isToday()">
+<div class="row" *ngIf="past">
   <div class="col-10 offset-1">
     <div class="history-text">
       <pre class="history-text__pre">{{historyRecord}}</pre>

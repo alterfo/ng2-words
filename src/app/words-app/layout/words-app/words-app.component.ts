@@ -1,41 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import * as moment from 'moment';
-import {C} from '../../const';
+import {Component, ViewChild} from '@angular/core';
 import {TimelineComponent} from '../../components/timeline/timeline.component';
-
+import {Temporal} from '@js-temporal/polyfill';
 
 @Component({
-    selector: 'words-app',
-    templateUrl: './words-app.component.html'
+  selector: 'words-app',
+  templateUrl: './words-app.component.html'
 })
-export class WordsAppComponent implements OnInit {
+export class WordsAppComponent {
+  @ViewChild(TimelineComponent)
+  timelineComponent!: TimelineComponent;
+  isPast = false;
+  calendar = Temporal.Calendar.from('gregory');
+  activeDate = Temporal.Now.plainDate(this.calendar);
+  now = Temporal.Now.plainDate(this.calendar);
 
-    date: string;
-    today: string;
-    timelineState: string;
 
-    @ViewChild(TimelineComponent) timelineComponent: TimelineComponent;
-
-    constructor() {
-    }
-
-    ngOnInit() {
-        moment.locale('ru-RU');
-        this.today = moment().format(C.DDMMYYYY);
-        this.date = this.today;
-    }
-
-    showHistoryRecord({date}) {
-        this.date = date;
-    }
-
-    updateWordCountForCurrentDay({day, wordsCount}) {
-        const dayNumber = +moment(day, C.DDMMYYYY).format('D');
-        this.timelineComponent.updateWordCount(dayNumber, wordsCount);
-    }
-
-    goToMonth({month}) {
-        this.date = month === moment(this.today, C.DDMMYYYY).format(C.MMYYYY) ?
-            this.today : moment(month, C.MMYYYY).startOf('month').format(C.DDMMYYYY);
-    }
+  ngOnInit() {
+    this.isPast = this.activeDate.toString() !== this.now.toString();
+  }
 }

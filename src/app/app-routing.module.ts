@@ -1,13 +1,16 @@
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {WordsAppComponent} from './words-app/layout/words-app/words-app.component';
-import {LoginComponent} from './words-app/layout/login/login.component';
 import {ErrorComponent} from './words-app/layout/error/error.component';
 
-const appRoutes: Routes = [
+const routes: Routes = [
   {path: '', component: WordsAppComponent},
-  {path: 'signin', component: LoginComponent},
   {path: 'error', component: ErrorComponent},
   {path: '**', redirectTo: ''}
 ];
 
-export const routing = RouterModule.forRoot(appRoutes, { useHash: true });
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

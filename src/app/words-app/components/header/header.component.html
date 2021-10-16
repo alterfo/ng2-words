@@ -1,34 +1,3 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Wordly</a>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/">Главная</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav" *ngIf="!currentUser">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/signup">Зарегистрироваться</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/signin">Войти</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav" *ngIf="currentUser">
-      <li class="nav-item">
-        <a class="nav-link" (click)="signout()" href="javascript:void(0);">{{currentUser.username}}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="signout()" href="javascript:void(0);">Выйти</a>
-      </li>
-    </ul>
-
-    <form [formGroup]="searchForm" *ngIf="searching">
-      <input class="form-control my-2" type="text" placeholder="Найти" formControlName="search">
-    </form>
-  </div>
+<nav class="navbar navbar-light" style="background-color: #fff;">
+  <a class="navbar-brand" routerLink="/" href="#">Wordly</a>
 </nav>
