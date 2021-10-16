@@ -1,17 +1,18 @@
-import { ElementRef, HostListener, Directive} from '@angular/core';
+import {Directive, ElementRef, HostListener} from '@angular/core';
 
 @Directive({
   selector: 'textarea[autosize]'
 })
 
 export class Autosize {
+  constructor(public element: ElementRef) {
+  }
+
   @HostListener('input', ['$event.target'])
 
   onInput(textArea: HTMLTextAreaElement): void {
     this.adjust();
   }
-
-  constructor(public element: ElementRef) { }
 
   ngAfterContentChecked(): void {
     this.adjust(true);
@@ -25,7 +26,7 @@ export class Autosize {
     const scrollTop = window.pageYOffset + dropMoreOn;
 
     el.style.overflow = 'hidden';
-    el.style.height = "auto";
+    el.style.height = 'auto';
     el.style.height = el.scrollHeight + dropMoreOn + 'px';
 
     window.scrollTo(scrollLeft, scrollTop);

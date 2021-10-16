@@ -7,6 +7,7 @@ import {Temporal} from '@js-temporal/polyfill';
 export class TextService {
   calendar = Temporal.Calendar.from('gregory');
   now = Temporal.Now.plainDate(this.calendar);
+
   constructor(private dbService: NgxIndexedDBService) {
   }
 
@@ -15,7 +16,7 @@ export class TextService {
   }
 
   saveText(text: string) {
-    return this.dbService.update("texts", {
+    return this.dbService.update('texts', {
       text: text,
       date: this.now.toString()
     });

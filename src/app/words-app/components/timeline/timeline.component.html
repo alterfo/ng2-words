@@ -5,22 +5,22 @@
 
   <div class="timeline">
     <div class="left-button">
-      <button class="btn btn-outline-info" (click)="toMonth(-1)"> <<</button>
+      <button (click)="toMonth(-1)" class="btn btn-outline-info"> <<</button>
     </div>
-    <div class="timeline__days" *ngIf="timeline.length">
-      <div class="item" *ngFor="let wordCount of timeline; let i = index">
+    <div *ngIf="timeline.length" class="timeline__days">
+      <div *ngFor="let wordCount of timeline; let i = index" class="item">
         <span class="timeline__date">{{ i + 1 }}</span>
-        <a type="button" class="btn btn-sm" [ngClass]="{
+        <a (click)="viewText(i + 1)" [ngClass]="{
         'active': activeDayN === i + 1 && isCurrentMonth(),
         'btn-default': wordCount === -1,
         'btn-info': wordCount === 0,
         'btn-danger': wordCount >= 500,
-        'btn-success': wordCount > 0 && wordCount < 500}"
-           (click)="viewText(i + 1)">{{wordCount === -1 ? '--' : wordCount}}</a>
+        'btn-success': wordCount > 0 && wordCount < 500}" class="btn btn-sm"
+           type="button">{{wordCount === -1 ? '--' : wordCount}}</a>
       </div>
     </div>
     <div class="next-month-button">
-      <button class="btn btn-outline-info" (click)="toMonth(1)" *ngIf="!isCurrentMonth()"> >>
+      <button (click)="toMonth(1)" *ngIf="!isCurrentMonth()" class="btn btn-outline-info"> >>
       </button>
     </div>
   </div>

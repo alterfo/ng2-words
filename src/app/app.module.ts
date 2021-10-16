@@ -15,20 +15,19 @@ import {AuthInterceptor} from './words-app/services/auth-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
 
 import {Autosize} from './words-app/directives/autosize.directive';
-import { ErrorComponent } from './words-app/layout/error/error.component';
+import {ErrorComponent} from './words-app/layout/error/error.component';
 import {AppRoutingModule} from './app-routing.module';
-import {environment} from '../environments/environment';
 import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
 
-const dbConfig: DBConfig  = {
+const dbConfig: DBConfig = {
   name: 'MyDb',
   version: 1,
   objectStoresMeta: [{
     store: 'texts',
-    storeConfig: { keyPath: 'date', autoIncrement: true },
+    storeConfig: {keyPath: 'date', autoIncrement: false},
     storeSchema: [
-      { name: 'text', keypath: 'text', options: { unique: false } },
-      { name: 'date', keypath: 'date', options: { unique: true } }
+      {name: 'text', keypath: 'text', options: {unique: false}},
+      {name: 'date', keypath: 'date', options: {unique: true}}
     ]
   }]
 };
