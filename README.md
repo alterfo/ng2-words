@@ -1,41 +1,27 @@
-# Ng2Words
+# Wordly
 
-Project for personal day-by-day diary.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.9.
 
-To install, follow the instruction below.
+## Development server
 
-To run just `npm i && ng build --prod && node server/server.js`
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Install instruction
+## Code scaffolding
 
-1. Install MongoDB from https://www.mongodb.com/dr/fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.2-signed.msi/download
-2. Create admin user by
-```
-> use admin
-> db.createUser({
-		user: "<adminusername>",
-	    pwd: "<adminpassword>",
-	    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
-	})
-```
-3. Restart db with --auth option enabled
-then rerun database with --auth option:
-> mongod --auth --port 27017 --dbpath <path to /data directory>
-> `db.auth("<adminusername>", "<adminpassword>")`
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-4. Create db for an app
+## Build
 
-> use wordly
-> db.createUser({
-    user: "wordly",
-    pwd: "<your password>",
-    roles: [ { role: "readWrite", db: "wordly" }]
-  })
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-5. Create config file `express/secrets.json` containing credentials:
+## Running unit tests
 
-secrets.json:
-{
-	"dbuser": "wordly",
-	"dbpassword": "<yourpassword>"
-}
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

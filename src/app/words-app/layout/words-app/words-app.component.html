@@ -1,13 +1,3 @@
 <words-header></words-header>
-
-<words-timeline
-  [date]="date"
-  [state]="timelineState"
-  (showMeHistoryRecord)="showHistoryRecord($event)"
-  (changeMonth)="goToMonth($event)"
-></words-timeline>
-
-<words-area
-  [date]="date"
-  (updateCounter)="updateWordCountForCurrentDay($event)"
-></words-area>
+<words-timeline></words-timeline>
+<words-area [past]="isPast" [currentDate]="activeDate"></words-area>

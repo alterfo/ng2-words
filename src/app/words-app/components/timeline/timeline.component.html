@@ -1,27 +1,26 @@
 <section>
   <header class="pt-2 row">
-    <span class="text-capitalize col-6">{{getMonthName()}}</span>
-    <span class="text-right col-6">{{date}}</span>
+    <span class="text-right col-6">Вы смотрите {{activeDate.dayOfYear}} день года</span>
   </header>
 
   <div class="timeline">
     <div class="left-button">
-      <button class="btn btn-xs btn-primary item" (click)="toMonth(-1)"> <<</button>
+      <button class="btn btn-outline-info" (click)="toMonth(-1)"> <<</button>
     </div>
-    <div class="timeline__days" [@timelineState]="state" *ngIf="timeline.length">
-      <div class="item" *ngFor="let day of timeline; let i = index">
+    <div class="timeline__days" *ngIf="timeline.length">
+      <div class="item" *ngFor="let wordCount of timeline; let i = index">
         <span class="timeline__date">{{ i + 1 }}</span>
         <a type="button" class="btn btn-sm" [ngClass]="{
-        'active': activeDay === i + 1,
-        'btn-default': day === -1,
-        'btn-info': day === 0,
-        'btn-danger': day >= 500,
-        'btn-success': day > 0 && day < 500}"
-           (click)="viewText(i + 1)">{{day === -1 ? '--' : day}}</a>
+        'active': activeDayN === i + 1 && isCurrentMonth(),
+        'btn-default': wordCount === -1,
+        'btn-info': wordCount === 0,
+        'btn-danger': wordCount >= 500,
+        'btn-success': wordCount > 0 && wordCount < 500}"
+           (click)="viewText(i + 1)">{{wordCount === -1 ? '--' : wordCount}}</a>
       </div>
     </div>
-    <div class="item next-month-button">
-      <button class="btn  btn-xs btn-primary item" (click)="toMonth(1)" *ngIf="!isCurrentMonth()"> >>
+    <div class="next-month-button">
+      <button class="btn btn-outline-info" (click)="toMonth(1)" *ngIf="!isCurrentMonth()"> >>
       </button>
     </div>
   </div>

@@ -29,6 +29,5 @@ export class Autosize {
     el.style.height = el.scrollHeight + dropMoreOn + 'px';
 
     window.scrollTo(scrollLeft, scrollTop);
-
   }
 }

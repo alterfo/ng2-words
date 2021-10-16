@@ -27,8 +27,8 @@ export class AuthInterceptor implements HttpInterceptor {
                             if (err.status === 500) {
                                 this.router.navigate(['/error'])
                             }
-                            return observableThrowError(err);
                         }
+                      return observableThrowError(err);
                     }
                 ),
             );

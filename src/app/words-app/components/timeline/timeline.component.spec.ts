@@ -22,4 +22,8 @@ describe('TimelineComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show current month', () => {
+
+  })
 });
