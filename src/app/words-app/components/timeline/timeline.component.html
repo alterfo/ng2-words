@@ -1,28 +1,20 @@
 <section>
-  <header class="pt-2 row">
-    <span class="text-right col-6">Вы смотрите {{activeDate.dayOfYear}} день года</span>
-  </header>
-
-  <div class="timeline">
-    <div class="left-button">
-      <button (click)="toMonth(-1)" class="btn btn-outline-info"> <<</button>
+  <div class="flex flex-nowrap flex-row w-full text-center">
+    <button (click)="toMonth(-1)" class="bg-blue-300"> <<</button>
+    <div *ngFor="let data of timeline; let i = index" class="flex-auto">
+      <button (click)="viewText(data.date)"
+              class="p-0.5 inline-block bg-gray-500"
+              [ngClass]="{
+        'outline-white bg-blue-900 text-white': data.date.day === activeDate.day && isCurrentMonth,
+        'bg-gray-300': data.wordCount === -1,
+        'bg-blue-300': data.wordCount === 0,
+        'bg-red-300': data.wordCount >= 500,
+        'bg-green-300': data.wordCount > 0 && data.wordCount < 500}"
+      >
+        <span class="text-xs relative left-1 opacity-50 bg-red-500">{{ i + 1 }}</span>
+        {{data.wordCount === -1 ? '--' : data.wordCount}}</button>
     </div>
-    <div *ngIf="timeline.length" class="timeline__days">
-      <div *ngFor="let wordCount of timeline; let i = index" class="item">
-        <span class="timeline__date">{{ i + 1 }}</span>
-        <a (click)="viewText(i + 1)" [ngClass]="{
-        'active': activeDayN === i + 1 && isCurrentMonth(),
-        'btn-default': wordCount === -1,
-        'btn-info': wordCount === 0,
-        'btn-danger': wordCount >= 500,
-        'btn-success': wordCount > 0 && wordCount < 500}" class="btn btn-sm"
-           type="button">{{wordCount === -1 ? '--' : wordCount}}</a>
-      </div>
-    </div>
-    <div class="next-month-button">
-      <button (click)="toMonth(1)" *ngIf="!isCurrentMonth()" class="btn btn-outline-info"> >>
+      <button (click)="toMonth(1)" *ngIf="!isCurrentMonth" class="bg-blue-300"> >>
       </button>
-    </div>
   </div>
-
 </section>

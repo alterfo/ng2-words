@@ -14,10 +14,11 @@ import {CapitalizePipe} from './words-app/pipes/capitalize.pipe';
 import {AuthInterceptor} from './words-app/services/auth-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
 
-import {Autosize} from './words-app/directives/autosize.directive';
 import {ErrorComponent} from './words-app/layout/error/error.component';
 import {AppRoutingModule} from './app-routing.module';
 import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
+import { RemoveCalendarPipe } from './words-app/pipes/remove-calendar.pipe';
+import { CountWordsPipe } from './words-app/pipes/count-words.pipe';
 
 const dbConfig: DBConfig = {
   name: 'MyDb',
@@ -27,6 +28,7 @@ const dbConfig: DBConfig = {
     storeConfig: {keyPath: 'date', autoIncrement: false},
     storeSchema: [
       {name: 'text', keypath: 'text', options: {unique: false}},
+      {name: 'wordCount', keypath: 'wordCount', options: {unique: false}},
       {name: 'date', keypath: 'date', options: {unique: true}}
     ]
   }]
@@ -39,8 +41,9 @@ const dbConfig: DBConfig = {
     TimelineComponent,
     AreaComponent,
     CapitalizePipe,
-    Autosize,
     ErrorComponent,
+    RemoveCalendarPipe,
+    CountWordsPipe,
   ],
   imports: [
     BrowserModule,

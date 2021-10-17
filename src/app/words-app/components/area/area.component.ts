@@ -15,11 +15,12 @@ import PlainDate = Temporal.PlainDate;
 export class AreaComponent implements OnInit {
   textForm: FormGroup;
   state = C.STATES.saved;
-  @Input() currentDate: PlainDate | undefined;
+  @Input() currentDate: PlainDate;
   @Input() past = false;
   savingCycleInterval: any;
   historyRecord = '';
   wordsCount = 0;
+  @Input() text: string = '';
 
   constructor(private textService: TextService,
               private _fb: FormBuilder,
@@ -29,59 +30,34 @@ export class AreaComponent implements OnInit {
       text: this._fb.control('', Validators.required)
     });
 
-    this.textForm.get('text')!.valueChanges.pipe(debounceTime(10)).subscribe(() => {
+    this.textForm.get('text')!.valueChanges.pipe(
+      debounceTime(10)
+    ).subscribe(() => {
       this.state = C.STATES.notsaved;
-      this.wordsCount = this.getWordsCount();
     });
   }
 
   ngOnInit() {
-    if (this.currentDate) {
-      this.textService.getTextByDate(this.currentDate.toString())
-        .subscribe((text) => {
-          if (this.past) {
-            clearInterval(this.savingCycleInterval);
-            this.historyRecord = text?.text || 'Здесь ничего нет';
-          } else {
-            this.textForm.get('text')!.patchValue(text?.text, {emitEvent: false});
-            this.wordsCount = this.getWordsCount();
-            this.savingCycleInterval = setInterval(() => {
-              this.save();
-            }, 10000);
-          }
-        });
+    if (this.past) {
+      clearInterval(this.savingCycleInterval);
+      this.historyRecord = this.text || 'Здесь ничего нет';
+    } else {
+      this.textForm.get('text')!.patchValue(this.text, {emitEvent: false});
+      this.savingCycleInterval = setInterval(() => {
+        this.save();
+      }, 10000);
     }
-  }
-
-  isToday() {
-    return !this.past;
-  }
-
-  getWordsCount() {
-    const wordsArr = this.getText().trim().split(/[\s,.;]+/);
-    for (let i = 0; i < wordsArr.length; i++) {
-      if (wordsArr[i] === '') {
-        wordsArr.splice(i, 1) && i--;
-      }
-    }
-    return wordsArr.length;
   }
 
   getText() {
     return this.textForm.get('text')!.value || '';
   }
 
-  save() {
+  async save() {
     if (this.state === C.STATES.notsaved) {
       this.state = C.STATES.saving;
-      this.textService.saveText(this.getText()).subscribe((res: any) => {
-        if (res.ok === 1) {
-          this.state = C.STATES.saved;
-        }
-      }, (err) => {
-        this.state = C.STATES.notsaved;
-        this.toastr.success('Попробуйте сохранить чуть позже!\n' + err, 'Что-то пошло не так!');
-      });
+      await this.textService.saveText(this.getText());
+      this.state = C.STATES.saved;
     }
   }
 
@@ -98,15 +74,14 @@ export class AreaComponent implements OnInit {
   }
 
 
-  saveByKeys(e: Event) {
+  async saveByKeys(e: Event) {
     e.preventDefault();
     e.stopPropagation();
 
     this.state = C.STATES.saving;
-    this.textService.saveText(this.getText()).subscribe((res: any) => {
-      this.state = C.STATES.saved;
-      this.toastr.success('Сохранение прошло успешно!', 'Продолжайте!');
-    });
+    await this.textService.saveText(this.getText())
+    this.state = C.STATES.saved;
+    this.toastr.success('Сохранение прошло успешно!', 'Продолжайте!');
   }
 
   putTab(e: Event) {

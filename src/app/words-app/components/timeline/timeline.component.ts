@@ -1,43 +1,33 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Temporal} from '@js-temporal/polyfill';
+import PlainDate = Temporal.PlainDate;
 
-
+export interface TimelineEntity {
+  date: PlainDate;
+  text: string;
+  wordCount: number
+}
 // компонент выводит в одну строку дни выбранного месяца
 // месяцы можно листать назад и обратно
 @Component({
   selector: 'words-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss'],
 })
 export class TimelineComponent {
-  calendar = Temporal.Calendar.from('gregory');
-  now = Temporal.Now.plainDate(this.calendar);
-  activeDate = Temporal.Now.plainDate(this.calendar);
-  timeline = new Array(this.activeDate.daysInMonth).fill(-1);
-  activeDayN = this.activeDate.day;
-  activeMonthN = this.activeDate.month;
+  @Input()
+  timeline!: TimelineEntity[];
+  @Input()
+  activeDate!: PlainDate;
+  @Input()
+  isCurrentMonth = true;
 
-  constructor() {
-  }
+  @Output() changeCurrentDate: EventEmitter<PlainDate> = new EventEmitter<Temporal.PlainDate>();
 
-  ngOnInit() {
-    console.log(this.now);
-    console.log(this.timeline);
-    console.log(this.activeDayN);
-  }
-
-  viewText(dayN: number) {
-    console.log(dayN);
+  viewText(date: PlainDate) {
+    this.changeCurrentDate.emit(date);
   }
 
   toMonth(direction: number) {
-    this.activeDate = this.activeDate.add({months: direction});
-    this.timeline = new Array(this.activeDate.daysInMonth).fill(-1);
-    this.activeDayN = this.activeDate.day;
-    this.activeMonthN = this.activeDate.month;
-  }
-
-  isCurrentMonth() {
-    return this.now.toString() === this.activeDate.toString()
+    this.changeCurrentDate.emit(this.activeDate.add({months: direction}));
   }
 }
