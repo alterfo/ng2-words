@@ -1,6 +1,17 @@
-<div class="container mx-auto px-4">
-  <words-header></words-header>
-  <words-timeline [timeline]="timeline" (changeCurrentDate)="onChangeCurrentDate($event)"
-                  [activeDate]="activeDate" [isCurrentMonth]="isCurrentMonth"></words-timeline>
-  <words-area [text]="text" [past]="isPast" *ngIf="text"></words-area>
+<div *ngIf="auth.user | async as user; else showLogin" class="container mx-auto px-4">
+  <words-header [user]="user" (onLogout)="logout()"></words-header>
+  <words-timeline (changeCurrentDate)="onChangeCurrentDate($event)"
+                  [activeDate]="activeDate"
+                  [isCurrentMonth]="isCurrentMonth"
+                  [timeline]="timeline"></words-timeline>
+  <words-area
+    (updateWordsCount)="onUpdateWordsCount($event)" *ngIf="text"
+    [past]="isPast"
+    [text]="text"></words-area>
 </div>
+
+<ng-template #showLogin>
+  <div class="flex h-screen">
+    <button (click)="login()" class="m-auto">Enter with Google</button>
+  </div>
+</ng-template>

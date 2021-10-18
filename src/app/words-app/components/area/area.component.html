@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!past">
   <h1>{{currentDate | removeCalendar}}</h1>
   <div>
     <img *ngIf="isSaving()" height="16"
@@ -29,17 +29,6 @@
               title="write something"></textarea>
     </div>
   </form>
-</div>
-<div class="textarea-toolbar__wrapper col-1">
-  <div class="textarea-toolbar__wordsCount">
-    <button [ngClass]="{
-        'btn-info': wordsCount === 0,
-        'btn-danger': wordsCount >= 500,
-        'btn-success': wordsCount > 0 && wordsCount < 500}" class="btn btn-sm" disabled>{{wordsCount}}</button>
-  </div>
-  <div class="textarea-toolbar__add-label-button">
-    <button class="btn btn-sm btn-info"><i class="fa fa-plus"></i> Добавить лейбл</button>
-  </div>
 </div>
 <div *ngIf="past" class="row">
   <div class="col-10 offset-1">

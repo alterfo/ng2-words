@@ -1,11 +1,12 @@
 import {debounceTime} from 'rxjs/operators';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TextService} from '../../services/text.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {C} from '../../const';
 import {Temporal} from '@js-temporal/polyfill';
 import PlainDate = Temporal.PlainDate;
+import {CountWordsPipe} from '../../pipes/count-words.pipe';
 
 @Component({
   selector: 'words-area',
@@ -19,8 +20,8 @@ export class AreaComponent implements OnInit {
   @Input() past = false;
   savingCycleInterval: any;
   historyRecord = '';
-  wordsCount = 0;
   @Input() text: string = '';
+  @Output() updateWordsCount = new EventEmitter()
 
   constructor(private textService: TextService,
               private _fb: FormBuilder,
@@ -56,6 +57,7 @@ export class AreaComponent implements OnInit {
   async save() {
     if (this.state === C.STATES.notsaved) {
       this.state = C.STATES.saving;
+      this.updateWordsCount.emit(new CountWordsPipe().transform(this.getText()))
       await this.textService.saveText(this.getText());
       this.state = C.STATES.saved;
     }

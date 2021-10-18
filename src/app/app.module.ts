@@ -19,6 +19,10 @@ import {AppRoutingModule} from './app-routing.module';
 import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
 import { RemoveCalendarPipe } from './words-app/pipes/remove-calendar.pipe';
 import { CountWordsPipe } from './words-app/pipes/count-words.pipe';
+import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
+import {getFirestore, provideFirestore} from '@angular/fire/firestore';
+import {AngularFireModule} from '@angular/fire/compat';
+import {environment} from '../environments/environment';
 
 const dbConfig: DBConfig = {
   name: 'MyDb',
@@ -52,7 +56,8 @@ const dbConfig: DBConfig = {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxIndexedDBModule.forRoot(dbConfig)
+    NgxIndexedDBModule.forRoot(dbConfig),
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [
     TimelineService,

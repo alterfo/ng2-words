@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {TimelineEntity} from '../../components/timeline/timeline.component';
 import {Temporal} from '@js-temporal/polyfill';
 import {TextService} from '../../services/text.service';
 import {CountWordsPipe} from '../../pipes/count-words.pipe';
 import {tap} from 'rxjs/operators';
 import PlainDate = Temporal.PlainDate;
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'words-app',
@@ -30,10 +32,28 @@ export class WordsAppComponent {
   });
   text = '';
 
-  constructor(private textService: TextService) {
-    this.textService.getTextByDate(this.activeDate).subscribe(({text}) => {
-      this.text = text;
-    })
+  login() {
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
+
+  logout() {
+    this.auth.signOut();
+  }
+
+  constructor(
+    private textService: TextService,
+    private ref: ChangeDetectorRef,
+    public auth: AngularFireAuth
+  ) {
+    // this.textService.getTextByDate(this.activeDate).subscribe(({text}) => {
+    //   this.text = text;
+    //   this.timeline[this.activeDate.day - 1].wordCount = new CountWordsPipe().transform(text);
+    // })
+  }
+
+  onUpdateWordsCount(count: number) {
+    this.timeline[this.activeDate.day - 1].wordCount = count;
+    this.ref.detectChanges();
   }
 
   onChangeCurrentDate(newDate: PlainDate) {
